@@ -29,6 +29,11 @@ class Todo
      */
     private $categories;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Tag::class, inversedBy="todos")
+     */
+    private $tag;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
@@ -71,6 +76,18 @@ class Todo
     public function removeCategory(Category $category): self
     {
         $this->categories->removeElement($category);
+
+        return $this;
+    }
+
+    public function getTag(): ?Tag
+    {
+        return $this->tag;
+    }
+
+    public function setTag(?Tag $tag): self
+    {
+        $this->tag = $tag;
 
         return $this;
     }

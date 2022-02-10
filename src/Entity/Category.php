@@ -18,39 +18,39 @@ class Category
      * @ORM\Column(type="integer")
      */
     private $id;
-
+    
     /**
      * @ORM\Column(type="string", length=50)
      */
     private $name;
-
+    
     /**
      * @ORM\ManyToMany(targetEntity=Todo::class, mappedBy="categories")
      */
     private $todos;
-
+    
     public function __construct()
     {
         $this->todos = new ArrayCollection();
     }
-
+    
     public function getId(): ?int
     {
         return $this->id;
     }
-
+    
     public function getName(): ?string
     {
         return $this->name;
     }
-
+    
     public function setName(string $name): self
     {
         $this->name = $name;
-
+        
         return $this;
     }
-
+    
     /**
      * @return Collection|Todo[]
      */
@@ -58,23 +58,28 @@ class Category
     {
         return $this->todos;
     }
-
+    
     public function addTodo(Todo $todo): self
     {
         if (!$this->todos->contains($todo)) {
             $this->todos[] = $todo;
             $todo->addCategory($this);
         }
-
+        
         return $this;
     }
-
+    
     public function removeTodo(Todo $todo): self
     {
         if ($this->todos->removeElement($todo)) {
             $todo->removeCategory($this);
         }
-
+        
         return $this;
+    }
+    
+    public function __toString()
+    {
+        return $this->name;
     }
 }
